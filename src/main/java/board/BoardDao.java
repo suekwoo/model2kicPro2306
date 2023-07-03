@@ -56,8 +56,7 @@ public class BoardDao {
 
 	public List<Board> boardList() {
 		Connection con = getConnection(); // 1
-		PreparedStatement pstmt;
-		ResultSet rs=null;
+		PreparedStatement pstmt;		ResultSet rs=null;
 		List<Board> li = new ArrayList<>();
 		try {
 			pstmt = con.prepareStatement("select * from board");
@@ -72,16 +71,11 @@ public class BoardDao {
 				b.setFile1(rs.getString("file1"));
 				b.setRegdate(rs.getDate("regdate"));
 				b.setReadcnt(rs.getInt("readcnt"));
-				li.add(b);
-			}
-			
-			
+				li.add(b);		}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		return li;
-		
+		}		return li;		
 	}
 	
 }  //end class
