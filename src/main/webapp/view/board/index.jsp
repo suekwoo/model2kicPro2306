@@ -9,5 +9,6 @@
 </head>
 <body>
 <%=session.getAttribute("id") %>님이 로그인 하셨습니다
+${index }
 </body>
 </html>

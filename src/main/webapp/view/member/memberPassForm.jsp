@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="head.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,14 +22,8 @@ function passChk(form) {
 
 </script>
 <body>
-	<%
-	String id = (String) session.getAttribute("id");
-	String msg = "로그인이 필요합니다";
-	String url = "loginForm.jsp";
-	if (id != null && !id.equals("")) {
-	%>
-	<form class="w3-container" action="memberPassPro.jsp" method="post"
 	
+	<form class="w3-container" action="${pageContext.request.contextPath}/member/memberPassPro" method="post"
 	onsubmit="return passChk(this)"
 	>
 			<p>
@@ -47,11 +41,6 @@ function passChk(form) {
 			<input class="w3-input" type="submit" value="비밀번호 변경">
 		</p>
 	</form>
-	<%	} else {	%>
-	<script>
-		alert("로그인을 하세요")
-		location.href = "loginForm.jsp";
-	</script>
-	<%	}	%>
+	
 </body>
 </html>

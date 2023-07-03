@@ -45,13 +45,14 @@ public class MemberDao {
 
 		PreparedStatement pstmt;
 		try {
-			pstmt = con.prepareStatement("insert into member values (?,?,?,?,?,?,'',sysdate)");
+			pstmt = con.prepareStatement("insert into member values (?,?,?,?,?,?,?,sysdate)");
 			pstmt.setString(1, m.getId());
 			pstmt.setString(2, m.getPass());
 			pstmt.setString(3, m.getName());
 			pstmt.setInt(4, m.getGender());
 			pstmt.setString(5, m.getTel());
 			pstmt.setString(6, m.getEmail());
+			pstmt.setString(7, m.getPicture());
 			return pstmt.executeUpdate(); // 3 dml시 실행
 
 		} catch (SQLException e) {
@@ -81,6 +82,7 @@ public class MemberDao {
 				m.setGender(rs.getInt("gender"));
 				m.setTel(rs.getString("tel"));
 				m.setEmail(rs.getString("email"));
+				m.setPicture(rs.getString("picture"));
 				return m;
 			}
 			

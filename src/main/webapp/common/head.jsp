@@ -27,12 +27,12 @@
  
     <div class="w3-dropdown-hover">
       <button class="w3-button">
-        Dropdown <i class="fa fa-caret-down"></i>
+        게시판 <i class="fa fa-caret-down"></i>
       </button>
       <div class="w3-dropdown-content w3-bar-block w3-white w3-card-4">
-        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-text-black">Link 1</a>
-        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-text-black">Link 2</a>
-        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-text-black">Link 3</a>
+        <a href="${pageContext.request.contextPath}/board/boardList?boardid=1" class="w3-bar-item w3-button w3-text-black">공지사항</a>
+        <a href="${pageContext.request.contextPath}/board/boardList?boardid=2" class="w3-bar-item w3-button w3-text-black">자유게시판</a>
+        <a href="${pageContext.request.contextPath}/board/boardList?boardid=3" class="w3-bar-item w3-button w3-text-black">QnA</a>
       </div>
     </div>
     <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right"><i class="fa fa-search"></i></a>
