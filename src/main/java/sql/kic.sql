@@ -27,9 +27,6 @@ refstep number(5));
 
 create sequence boardseq;
 
-select * from ( select rownum rnum ,a.* 
-from (select * from board order by ref desc , re_step) a )
-where rnum between #{start} and #{end}
 
 
 
