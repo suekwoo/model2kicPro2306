@@ -85,9 +85,26 @@ public class BoardController extends  MskimRequestMapping{
 	@RequestMapping("boardList")  
 	public String  boardList(HttpServletRequest request, 
 			HttpServletResponse response) {
-		 BoardDao bd = new BoardDao();
-		 List<Board> list=bd.boardList();
+		int limit = 5;  //한 page당 게시물 갯수 
+		String pageNum="1";  //parameter page
+		int pageInt = Integer.parseInt(pageNum) ;  //page 번호
+		String boardid = "1"; //게시판 종류
+		BoardDao bd = new BoardDao();
+		int boardCount=bd.boardCount(boardid); //전체 게시물 갯수
+		int boardNum = boardCount - ((pageInt-1)* limit);
+		
+		 List<Board> list=bd.boardList(pageInt, limit, boardid);
+		 String boardName = "";
+		    switch(boardid) {
+		    case "1" : boardName = "공지사항"; break;
+		    case "2" : boardName = "자유게시판"; break;
+		    case "3" : boardName = "QnA"; break;
+		    
+		    }
+		 
 		 request.setAttribute("list", list);
+		 request.setAttribute("boardNum", boardNum);
+		 request.setAttribute("boardName", boardName);
 		return "boardList";  //view/board/boardList.jsp
 	}
 

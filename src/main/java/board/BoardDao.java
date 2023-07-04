@@ -53,14 +53,48 @@ public class BoardDao {
 		return 0;
 
 	}
+	
+	public int boardCount(String boardid) {
+		Connection con = getConnection(); // 1
+		PreparedStatement pstmt;		ResultSet rs=null;
+		String sql = "select nvl(count(*),0) from board where boardid = ? ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, boardid);
+			rs=pstmt.executeQuery() ;
+			if (rs.next())
+			{  return rs.getInt(1);
+						}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		return 0;		
+	}
+	
+	
 
-	public List<Board> boardList() {
+	public List<Board> boardList(int pageInt, int limit, String boardid) {
 		Connection con = getConnection(); // 1
 		PreparedStatement pstmt;		ResultSet rs=null;
 		List<Board> li = new ArrayList<>();
 		try {
-			pstmt = con.prepareStatement("select * from board");
+			/*
+			select * from (
+select rownum rnum , a.* from 
+(select * from board where boardid = '1'
+order by num desc) a) where rnum BETWEEN 10 and 13;
+			 */
+		String sql = 	" select * from ("+
+				" select rownum rnum , a.* from "+
+				" (select * from board where boardid = ?"+
+				" order by num desc) a) where rnum BETWEEN ? and ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, boardid);
+			pstmt.setInt(2, (pageInt-1)*limit + 1); //1 ,11, 21,  .....
+			pstmt.setInt(3, pageInt*limit);  //10, 20, 30
 			rs=pstmt.executeQuery() ;
+			
 			while (rs.next()) {
 				Board b = new Board();
 				b.setNum(rs.getInt("num"));

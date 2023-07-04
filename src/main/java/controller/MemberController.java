@@ -213,8 +213,7 @@ public class MemberController extends  MskimRequestMapping{
 	    @RequestMapping("memberPassForm") 
 	    @Login("LoginUser")
 		public String  memberPassForm(HttpServletRequest request, 
-				HttpServletResponse response) {
-	    	 	
+				HttpServletResponse response) { 	 	
 	    	
 			return "memberPassForm";
 		}
