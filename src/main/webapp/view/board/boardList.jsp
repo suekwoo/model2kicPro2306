@@ -23,7 +23,7 @@
    <td>${boardNum}</td>
    <c:set var="boardNum"  value="${boardNum-1}"/>
   <td>${b.name}</td>
-  <td>${b.subject}</td>
+  <td><a  href="${pageContext.request.contextPath}/board/boardComment?num=${b.num}">${b.subject}</a></td>
   <td>${b.file1}</td>
   <td>${b.regdate}</td>
   <td>${b.readcnt}</td>
@@ -34,5 +34,37 @@
 
 
 </table> 
-<br></div>
+<br>
+
+<div class="w3-bar w3-center w3-small">
+ <c:if test="${start < bottomLine }" > 
+ <a href="#"  class="w3-button w3-disabled">[이전]</a>
+ </c:if>
+ <c:if test="${start > bottomLine }" > 
+ <a href="${pageContext.request.contextPath}/board/boardList?pageNum=${start-bottomLine}" 
+  class="w3-button">[이전]</a>
+ </c:if>
+ 
+ 
+ <c:forEach  var="p"  begin="${start}"  end="${end}">
+ <a href="${pageContext.request.contextPath}/board/boardList?pageNum=${p}" 
+  class="w3-button <c:if test="${pageInt==p}">  w3-red  </c:if> ">${p}</a>
+ </c:forEach>
+ 
+ <c:if test="${end >= maxPage }" >
+  <a href="#"  class="w3-button  w3-disabled">[다음]</a>
+  </c:if>
+<c:if test="${end <  maxPage }" >
+  <a href="${pageContext.request.contextPath}/board/boardList?pageNum=${start+bottomLine}" 
+   class="w3-button ">[다음]</a>
+  </c:if>
+</div>
+
+
+
+
+
+
+
+</div>
 </body></html>

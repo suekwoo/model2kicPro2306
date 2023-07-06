@@ -112,4 +112,31 @@ order by num desc) a) where rnum BETWEEN 10 and 13;
 		}		return li;		
 	}
 	
+	
+	
+	public Board boardOne(int num) {
+		Connection con = getConnection(); // 1
+		PreparedStatement pstmt;		ResultSet rs=null;
+		try {
+		String sql = 	"select * from board where num = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs=pstmt.executeQuery() ;
+			if (rs.next()) {
+				Board b = new Board();
+				b.setNum(rs.getInt("num"));
+				b.setName(rs.getString("name"));
+				b.setPass(rs.getString("pass"));
+				b.setSubject(rs.getString("subject"));
+				b.setContent(rs.getString("content"));
+				b.setFile1(rs.getString("file1"));
+				b.setRegdate(rs.getDate("regdate"));
+				b.setReadcnt(rs.getInt("readcnt"));
+				return b;		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		return null;		
+	}
+	
 }  //end class
