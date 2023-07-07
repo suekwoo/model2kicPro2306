@@ -1,10 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+function enterkey(num) {
+	if(window.event.keyCode == 13) {
+		commentPro(num)
+	}
+	
+	
+	
+}
+
+function commentPro(num) {
+	
+	let comment = document.querySelector("#comment").value
+	console.log(comment)
+	//$.get(url, function() {})
+	$.get("${pageContext.request.contextPath}/board/boardCommentPro?comment="+comment+"&num="+num,
+			function(data, state){
+		    console.log("Data: " + data + "\nStatus: " + status);
+		    let commentList = document.querySelector("#commentList")
+		    commentList.innerHTML=data + commentList.innerHTML
+		    console.log(commentList.innerHTML)
+	})
+	
+	document.querySelector("#comment").value=''
+}
+
+
+
+
+
+</script>
 </head>
 <body>
 	<div class="w3-container">
@@ -43,7 +75,15 @@
 				<td><input type="button" value="입력(enter 입력)"
 					onclick="commentPro('${board.num}')"></td>
 			</tr>
-
+           
+             <tr>
+				<td   colspan="3"  id="commentList">
+				<c:forEach   var="c"   items="${commentLi}">
+				${c.toHtml()}
+				</c:forEach>
+				</td>
+				<td></td>
+			</tr>
 
 
 		</table>

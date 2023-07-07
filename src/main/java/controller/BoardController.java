@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.annotation.WebInitParam;
@@ -13,6 +14,7 @@ import com.oreilly.servlet.MultipartRequest;
 
 import board.Board;
 import board.BoardDao;
+import board.Comment;
 import kic.mskim.MskimRequestMapping;
 import kic.mskim.RequestMapping;
 
@@ -153,8 +155,34 @@ public class BoardController extends MskimRequestMapping {
 		}
 		BoardDao   bd = new BoardDao();
 		Board board = bd.boardOne(num);
+		List<Comment> commentLi = bd.commentList(num);
 		request.setAttribute("board", board);
+		request.setAttribute("commentLi", commentLi);
 		return "boardComment";
+	}
+	
+	@RequestMapping("boardCommentPro")
+	public String boardCommentPro(HttpServletRequest request, HttpServletResponse response) {
+		int boardnum=1;
+		try {
+			boardnum = Integer.parseInt(request.getParameter("num"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		String comment = request.getParameter("comment");
+		BoardDao   bd = new BoardDao();
+		int num = bd.insertComment(comment, boardnum);
+		
+		if (num==0) comment="저장되지 않았습니다 ";
+		
+		Comment c = new Comment();
+		c.setContent(comment);
+		c.setRegdate(new Date());
+		
+		request.setAttribute("c", c);
+	
+		return "boardCommentPro";
 	}
 
 }

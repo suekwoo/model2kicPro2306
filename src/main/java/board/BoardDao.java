@@ -53,7 +53,23 @@ public class BoardDao {
 		return 0;
 
 	}
-	
+	public int insertComment(String comment, int num) {
+		Connection con = getConnection(); // 1
+		PreparedStatement pstmt;
+		try {
+			pstmt = con.prepareStatement
+			("insert into boardcomment values (boardcomseq.nextval,?,?,sysdate)");
+			pstmt.setInt(1, num);
+			pstmt.setString(2, comment);
+			return pstmt.executeUpdate(); // 3 dml시 실행
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+
+	}
 	public int boardCount(String boardid) {
 		Connection con = getConnection(); // 1
 		PreparedStatement pstmt;		ResultSet rs=null;
@@ -111,7 +127,27 @@ order by num desc) a) where rnum BETWEEN 10 and 13;
 			e.printStackTrace();
 		}		return li;		
 	}
-	
+	public List<Comment> commentList(int num) {
+		Connection con = getConnection(); // 1
+		PreparedStatement pstmt;		ResultSet rs=null;
+		List<Comment> li = new ArrayList<>();
+		try {	
+		String sql = 	" select * from boardcomment where num = ?  order by regdate desc";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs=pstmt.executeQuery() ;
+			while (rs.next()) {
+				Comment c = new Comment();
+				c.setSer(rs.getInt("ser"));
+				c.setNum(rs.getInt("num"));
+				c.setContent(rs.getString("content"));
+				c.setRegdate(rs.getDate("regdate"));
+				li.add(c);		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		return li;		
+	}
 	
 	
 	public Board boardOne(int num) {

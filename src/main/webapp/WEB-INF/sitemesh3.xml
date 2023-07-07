@@ -7,5 +7,6 @@
 
 	<mapping path="*/pictureimgForm" exclude="true" />
 	<mapping path="*/picturePro" exclude="true" />  
+	<mapping path="*/boardCommentPro" exclude="true" />  
 	
 </sitemesh>

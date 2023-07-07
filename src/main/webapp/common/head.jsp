@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
