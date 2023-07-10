@@ -175,4 +175,26 @@ order by num desc) a) where rnum BETWEEN 10 and 13;
 		}		return null;		
 	}
 	
+	public int boardUpdate(Board board) {
+		Connection con = getConnection(); // 1
+		PreparedStatement pstmt;
+		try {
+			pstmt = con.prepareStatement
+			("update board set subject = ?, content = ?, file1 = ? where num = ?");
+			
+			pstmt.setString(1, board.getSubject());
+			pstmt.setString(2, board.getContent());
+			pstmt.setString(3,  board.getFile1());
+			pstmt.setInt(4, board.getNum());
+			
+			
+			return pstmt.executeUpdate(); // 3 dml시 실행
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+
+	}
 }  //end class

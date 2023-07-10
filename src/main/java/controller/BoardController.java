@@ -184,5 +184,130 @@ public class BoardController extends MskimRequestMapping {
 	
 		return "boardCommentPro";
 	}
+	
+	@RequestMapping("boardUpdateForm")
+	public String boardUpdateForm(HttpServletRequest request, HttpServletResponse response) {
+		int num=1;
+		try {
+		 num = Integer.parseInt(request.getParameter("num"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		
+		String boardid = (String) request.getSession().getAttribute("boardid");
+		if (boardid == null)  boardid="1";
+		
+		String boardName="";
+		switch (boardid) {
+		case "1":
+			boardName = "공지사항";
+			break;
+		case "2":
+			boardName = "자유게시판";
+			break;
+		case "3":
+			boardName = "QnA";
+			break;
 
+		}
+		
+		
+		
+		
+		
+		BoardDao   bd = new BoardDao();
+		Board board = bd.boardOne(num);
+		request.setAttribute("board", board);
+		request.setAttribute("boardName", boardName);
+		return "boardUpdateForm";
+	}
+	
+	
+	@RequestMapping("boardUpdatePro")
+	public String boardUpdatePro(HttpServletRequest request, HttpServletResponse response) {
+		int num=1;
+	
+		String path = request.getServletContext().getRealPath("/") + "view/board/images/";
+		String msg = "";
+		String url = "";	
+		
+		try {
+			MultipartRequest multi = new MultipartRequest(request, path, 10 * 1024 * 1024, "UTF-8");
+		
+			Board board = new Board();	
+			board.setNum(Integer.parseInt(multi.getParameter("num"))); //====
+			board.setName(multi.getParameter("name"));
+			board.setPass(multi.getParameter("pass"));
+			board.setSubject(multi.getParameter("subject"));
+			board.setContent(multi.getParameter("content"));
+		   
+			String file2 = multi.getFilesystemName("file2");
+			if (file2!=null) {
+				board.setFile1(file2);
+			} else {
+				board.setFile1(multi.getParameter("file1"));
+			}
+			
+			
+			
+			System.out.println(board);
+			BoardDao bd = new BoardDao();
+			Board dbboard = bd.boardOne(board.getNum()); //pass 확인용  ======
+			
+			if(board.getPass().equals(dbboard.getPass())) {  //수정 가능 확인
+				if (bd.boardUpdate(board)>0) { //update ok
+				 msg="수정 완료";
+				 url = "/board/boardComment?num="+board.getNum();
+				} else {
+					 msg="수정 실패";
+					 url = "/board/boardUpdateForm?num="+board.getNum();
+				}
+				
+			} else {
+				
+				 msg="비밀번호가 틀렸습니다";
+				 url = "/board/boardUpdateForm?num="+board.getNum();
+			}
+			
+			
+		} catch (Exception e) { e.printStackTrace(); }
+		request.setAttribute("msg", msg);
+		request.setAttribute("url", url);
+		return "alert";  //view/board/alert.jsp 확인
+	}
+	
+	@RequestMapping("boardDeleteForm")
+	public String boardDeleteForm(HttpServletRequest request, HttpServletResponse response) {
+		
+		int num = Integer.parseInt(request.getParameter("num"));
+		request.setAttribute("num", num);
+		return "boardDeleteForm";
+	}
+	
+	/*
+	@RequestMapping("boardDeletePro")
+	public String boardDeletePro(HttpServletRequest request, HttpServletResponse response) {
+		String pass = request.getParameter("pass");
+		int num = Integer.parseInt(request.getParameter("num"));
+		BoardDao  bd = new BoardDao();
+		Board dbboard = bd.boardOne(num);
+		String msg="";
+		String url = "";
+		if (pass.equals(dbboard.getPass())) {
+			if (bd.boardDelete() > 0) {
+				msg="게시글이 삭제 되었습니다";
+				url="/board/boardList";
+			} else {
+				msg="삭제 실패 입니다";
+				url="/board/boardDeleteForm";}
+		} else {
+			msg="비밀번호 확인하세요";
+			url="/board/boardDeleteForm";}
+		request.setAttribute("msg", msg);
+		request.setAttribute("url", url);
+		return "boardDeleteForm";
+	}	
+	
+*/
 }

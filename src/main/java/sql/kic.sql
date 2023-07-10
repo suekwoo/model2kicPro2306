@@ -31,12 +31,12 @@ create sequence boardseq;
 
 create table boardcomment (
 ser int primary key,
-num int,
+num int,      //board num
 content varchar(2000),
 regdate date);
 
-create sequence boardcomseq;
 
+create sequence boardcomseq;
 
 
 

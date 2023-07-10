@@ -63,10 +63,37 @@ function commentPro(num) {
 				<td>글제목</td>
 				<td colspan="3">${board.subject}</td>
 			</tr>
+			
+			
+			
 			<tr   style="border-bottom: double 3px grey;">
 				<td>글내용</td>
 				<td colspan="3">${board.content}</td>
 			</tr  >
+			
+			
+			
+			<tr   >
+				<td  colspan="4">
+				<p  class="w3-right">
+					<input type="button" value="글수정" 	
+onclick="document.location.href='<%=request.getContextPath()%>/board/boardUpdateForm?num=${board.num}'"/>
+			<input type="button" value="글삭제" 	
+onclick="document.location.href='<%=request.getContextPath()%>/board/boardDeleteForm?num=${board.num}'"/>
+		<input type="button" value="목록" 	
+onclick="document.location.href='<%=request.getContextPath()%>/board/boardList'"/>
+				</p>
+				
+				
+				
+				
+				</td>
+				
+			</tr  >
+			
+			
+			
+			
 			
 			<tr>
 				<td colspan="3" class="w3-center"><textarea rows="1"
