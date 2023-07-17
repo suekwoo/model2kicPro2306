@@ -16,7 +16,8 @@ import kic.mskim.Login;
 import kic.mskim.MskimRequestMapping;
 import kic.mskim.RequestMapping;
 import member.Member;
-import member.MemberDao;
+import member.MemberMybatis;
+//import member.MemberDao;
 
 @WebServlet(urlPatterns= {"/member/*"},  
 initParams= {@WebInitParam(name="view",value="/view/member/"),//jsp 위치
@@ -64,18 +65,18 @@ public class MemberController extends  MskimRequestMapping{
 	    	
 	    	mem.setPicture(request.getParameter("picture"));
 
-	    	MemberDao md = new MemberDao();
+	    	MemberMybatis md = new MemberMybatis();
 	    	int num = md.insertMember(mem);
 	    	String msg = "";
 	    	String url = "";
 	    	if (num > 0) {
 	    		//insert ok
 	    		msg = mem.getName() + "님이 가입을 하였습니다";
-	    		url = "member/loginForm";
+	    		url = "/member/loginForm";
 	    	} else {
 	    		// insert error
 	    		msg = "회원가입이 실패 하였습니다";
-	    		url = "member/joinForm";
+	    		url = "/member/joinForm";
 	    	}
 	    	request.setAttribute("msg", msg);
 	    	request.setAttribute("url", url);
@@ -90,21 +91,21 @@ public class MemberController extends  MskimRequestMapping{
 	    	String id = request.getParameter("id");
 	    	String pass = request.getParameter("pass");
 
-	    	MemberDao md = new MemberDao();
+	    	MemberMybatis md = new MemberMybatis();
 	    	Member mem = md.oneMember(id); 
 	    	String msg = "";
 	    	String url = "";
 	    	if (mem ==null) {   //id 없음
 	    		msg="아이디를 확인 하세요";
-	    	    url="member/loginForm";
+	    	    url="/member/loginForm";
 	    	} else  {	
 	    		if (pass.equals(mem.getPass())) {  //login ok
 	    			request.getSession().setAttribute("id", id);
 	    		    msg=mem.getName()+"님이 로그인 하셨습니다";
-	    			url="member/index";
+	    			url="/member/index";
 	    		} else {
 	    			msg = "비밀번호를 확인 하세요";
-	    			url="member/loginForm";
+	    			url="/member/loginForm";
 	    		}}
 	    	request.setAttribute("msg", msg);
 	    	request.setAttribute("url", url);
@@ -133,7 +134,7 @@ public class MemberController extends  MskimRequestMapping{
 				HttpServletResponse response) {
 	    	HttpSession session = request.getSession();
 	    	String id = (String)session.getAttribute("id");
-	    	Member m = new MemberDao().oneMember(id);
+	    	Member m = new MemberMybatis().oneMember(id);
 	    	
 	    	request.setAttribute("m", m);
 			return "memberInfo";
@@ -149,7 +150,7 @@ public class MemberController extends  MskimRequestMapping{
 				HttpServletResponse response) {
 	    	HttpSession session = request.getSession();
 	    	String id = (String)session.getAttribute("id");
-	    	Member m = new MemberDao().oneMember(id);
+	    	Member m = new MemberMybatis().oneMember(id);
 	    	
 	    	request.setAttribute("m", m);
 			return "memberUpdateForm";
@@ -175,7 +176,7 @@ public class MemberController extends  MskimRequestMapping{
 	    		newm.setTel(request.getParameter("tel"));
 	    		newm.setEmail(request.getParameter("email"));
 	    		newm.setPicture(request.getParameter("picture"));
-	    		MemberDao md = new MemberDao();
+	    		MemberMybatis md = new MemberMybatis();
 	    		Member  dbm = md.oneMember(id);  //password 확인
 	    		
 	    		
@@ -226,7 +227,7 @@ public class MemberController extends  MskimRequestMapping{
 	    	HttpSession session = request.getSession();
 	    	String id = (String) session.getAttribute("id");
 	    	String msg="로그인이 필요합니다";    	String url="loginForm.jsp";
-	    		MemberDao md = new MemberDao();
+	    	MemberMybatis md = new MemberMybatis();
 	    		Member  dbm = md.oneMember(id);  //password 확인
 	    		String pass  = request.getParameter("pass"); 
 	    		String chgpass1  = request.getParameter("chgpass1"); 
@@ -264,7 +265,7 @@ public class MemberController extends  MskimRequestMapping{
 	    	HttpSession session = request.getSession();
 	    	String id = (String) session.getAttribute("id");
 	    	String msg="로그인이 필요합니다";   	String url="member/loginForm";
-	    		MemberDao md = new MemberDao();
+	    	MemberMybatis md = new MemberMybatis();
 	    		Member  dbm = md.oneMember(id);  //password 확인
 	    		String pass  = request.getParameter("pass"); 
 	    		if (dbm!=null) {
@@ -320,7 +321,7 @@ public class MemberController extends  MskimRequestMapping{
 	    public String  memberList(HttpServletRequest request, 
 				HttpServletResponse response) {
 	    	 String id = (String) request.getSession().getAttribute("id"); 	
-	    	 List<Member>  li = new MemberDao().memberList();  	
+	    	 List<Member>  li = new MemberMybatis().memberList();  	
 	    	 request.setAttribute("li", li);
 			return "memberList";
 		}

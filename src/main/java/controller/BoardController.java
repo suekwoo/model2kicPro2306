@@ -285,7 +285,7 @@ public class BoardController extends MskimRequestMapping {
 		return "boardDeleteForm";
 	}
 	
-	/*
+
 	@RequestMapping("boardDeletePro")
 	public String boardDeletePro(HttpServletRequest request, HttpServletResponse response) {
 		String pass = request.getParameter("pass");
@@ -295,7 +295,7 @@ public class BoardController extends MskimRequestMapping {
 		String msg="";
 		String url = "";
 		if (pass.equals(dbboard.getPass())) {
-			if (bd.boardDelete() > 0) {
+			if (bd.boardDelete(num) > 0) {
 				msg="게시글이 삭제 되었습니다";
 				url="/board/boardList";
 			} else {
@@ -309,5 +309,5 @@ public class BoardController extends MskimRequestMapping {
 		return "boardDeleteForm";
 	}	
 	
-*/
+
 }

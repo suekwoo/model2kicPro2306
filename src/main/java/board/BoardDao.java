@@ -197,4 +197,31 @@ order by num desc) a) where rnum BETWEEN 10 and 13;
 		return 0;
 
 	}
+	
+	public int boardDelete(int num) {
+		Connection con = getConnection(); // 1
+		PreparedStatement pstmt;
+		String sql1 = "delete from board where num = ?";
+		String sql2 = "delete from boardcomment  where num = ?";
+		try {
+			pstmt = con.prepareStatement(sql2);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			
+			pstmt = con.prepareStatement(sql1);
+			pstmt.setInt(1, num);
+			return pstmt.executeUpdate(); // 3 dml시 실행
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		return 0;		
+	}	
 }  //end class
