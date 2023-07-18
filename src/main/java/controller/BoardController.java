@@ -13,7 +13,8 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 
 import board.Board;
-import board.BoardDao;
+import board.BoardMybatis;
+//import board.BoardDao;
 import board.Comment;
 import kic.mskim.MskimRequestMapping;
 import kic.mskim.RequestMapping;
@@ -61,7 +62,7 @@ public class BoardController extends MskimRequestMapping {
 
 			board.setContent(multi.getParameter("content"));
 			board.setFile1(filename);
-			BoardDao bd = new BoardDao();
+			BoardMybatis bd = new BoardMybatis();
 			System.out.println(board);
 			int num = bd.insertBoard(board);
 			if (num > 0) {
@@ -106,7 +107,7 @@ public class BoardController extends MskimRequestMapping {
 		int limit = 5; // 한 page당 게시물 갯수
 		
 		int pageInt = Integer.parseInt(pageNum); // page 번호
-		BoardDao bd = new BoardDao();
+		BoardMybatis bd = new BoardMybatis();
 		int boardCount = bd.boardCount(boardid); // 전체 게시물 갯수
 		int boardNum = boardCount - ((pageInt - 1) * limit);
 
@@ -153,7 +154,7 @@ public class BoardController extends MskimRequestMapping {
 			e.printStackTrace();
 			
 		}
-		BoardDao   bd = new BoardDao();
+		BoardMybatis   bd = new BoardMybatis();
 		Board board = bd.boardOne(num);
 		List<Comment> commentLi = bd.commentList(num);
 		request.setAttribute("board", board);
@@ -171,7 +172,7 @@ public class BoardController extends MskimRequestMapping {
 			
 		}
 		String comment = request.getParameter("comment");
-		BoardDao   bd = new BoardDao();
+		BoardMybatis   bd = new BoardMybatis();
 		int num = bd.insertComment(comment, boardnum);
 		
 		if (num==0) comment="저장되지 않았습니다 ";
@@ -216,7 +217,7 @@ public class BoardController extends MskimRequestMapping {
 		
 		
 		
-		BoardDao   bd = new BoardDao();
+		BoardMybatis   bd = new BoardMybatis();
 		Board board = bd.boardOne(num);
 		request.setAttribute("board", board);
 		request.setAttribute("boardName", boardName);
@@ -252,7 +253,7 @@ public class BoardController extends MskimRequestMapping {
 			
 			
 			System.out.println(board);
-			BoardDao bd = new BoardDao();
+			BoardMybatis bd = new BoardMybatis();
 			Board dbboard = bd.boardOne(board.getNum()); //pass 확인용  ======
 			
 			if(board.getPass().equals(dbboard.getPass())) {  //수정 가능 확인
@@ -290,7 +291,7 @@ public class BoardController extends MskimRequestMapping {
 	public String boardDeletePro(HttpServletRequest request, HttpServletResponse response) {
 		String pass = request.getParameter("pass");
 		int num = Integer.parseInt(request.getParameter("num"));
-		BoardDao  bd = new BoardDao();
+		BoardMybatis  bd = new BoardMybatis();
 		Board dbboard = bd.boardOne(num);
 		String msg="";
 		String url = "";
@@ -306,7 +307,7 @@ public class BoardController extends MskimRequestMapping {
 			url="/board/boardDeleteForm";}
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", url);
-		return "boardDeleteForm";
+		return "alert";
 	}	
 	
 

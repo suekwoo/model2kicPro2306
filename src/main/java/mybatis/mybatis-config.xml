@@ -6,9 +6,13 @@
 	<typeAliases>
 		<typeAlias type="member.Member" alias="member" />
 		<typeAlias type="board.Board" alias="board" />
+		<typeAlias type="board.Comment" alias="comment" />
 		
 
 	</typeAliases>
+	
+	
+	
 	<environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC" />
@@ -24,7 +28,7 @@
 
 	<mappers>
 		<mapper class="mybatis.MemberAnno" />
-		
+		<mapper  resource="mybatis/Board.xml"   />
 	</mappers>
 
 </configuration>

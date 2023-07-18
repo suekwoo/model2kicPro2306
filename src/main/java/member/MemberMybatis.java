@@ -18,7 +18,7 @@ import mybatis.MybatisConnection;
 
 public class MemberMybatis {
 	
-	private static   SqlSession sqlSession = MybatisConnection.getConnection();
+	private    SqlSession sqlSession = MybatisConnection.getConnection();
 	
 	public int insertMember(Member m) {
 		
