@@ -61,7 +61,11 @@ public class BoardController extends MskimRequestMapping {
 			board.setSubject(multi.getParameter("subject"));
 
 			board.setContent(multi.getParameter("content"));
+			
+			if (filename==null) filename = "";
 			board.setFile1(filename);
+			
+			
 			BoardMybatis bd = new BoardMybatis();
 			System.out.println(board);
 			int num = bd.insertBoard(board);
